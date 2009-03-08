@@ -1,0 +1,2 @@
+redis-server		/usr/bin
+debian/redis.conf	/etc/redis

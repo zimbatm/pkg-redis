@@ -1,0 +1,41 @@
+Source: redis
+Section: misc
+Priority: optional
+Maintainer: Chris Lamb <lamby@debian.org>
+Build-Depends: debhelper (>= 7.0.50), erlang-dev (>= 1:11.b.2-3)
+Build-Depends-Indep: python-support
+Standards-Version: 3.8.0
+Homepage: http://code.google.com/p/redis/
+Vcs-Git: git://git.chris-lamb.co.uk/debian/pkg-redis.git
+Vcs-Browser: http://git.chris-lamb.co.uk/?p=pkg-redis.git
+
+Package: redis-server
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}, adduser
+Description: Persistent key-value database with network interface
+ Redis is a key-value database in a similar vein to memcache but the dataset
+ is non-volatile. Redis additionally provides native support for atomically
+ manipulating and querying data structures such as lists and sets.
+ .
+ The dataset is stored entirely in memory and periodically flushed to disk.
+
+Package: python-redis
+Section: python
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}
+Description: Persistent key-value database with network interface (Python client library)
+ Redis is a key-value database in a similar vein to memcache but the dataset
+ is non-volatile. Redis additionally provides native support for atomically
+ manipulating and querying data structures such as lists and sets.
+ .
+ This package contains the Python client library.
+
+Package: erlang-redis
+Architecture: any
+Depends: ${misc:Depends}, ${erlang-nox:Depends}
+Description: Persistent key-value database with network interface (Erlang client library)
+ Redis is a key-value database in a similar vein to memcache but the dataset
+ is non-volatile. Redis additionally provides native support for atomically
+ manipulating and querying data structures such as lists and sets.
+ .
+ This package contains the Erlang client library.
