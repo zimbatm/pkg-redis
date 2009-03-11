@@ -1,4 +1,4 @@
-redis (1.0~beta5-1) UNRELEASED; urgency=low
+redis (1.0~beta6-1) UNRELEASED; urgency=low
 
   * Initial release. (Closes: #518700)
 
