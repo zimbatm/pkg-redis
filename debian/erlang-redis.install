@@ -1,2 +1,2 @@
-client-libaries/erlang/ebin/*.beam	/usr/lib/erlang/lib/erldis-0.0.1
-client-libaries/erlang/include/*.hrl	/usr/lib/erlang/lib/erldis-0.0.1
+client-libraries/erlang/ebin/*.beam	/usr/lib/erlang/lib/erldis-0.0.1
+client-libraries/erlang/include/*.hrl	/usr/lib/erlang/lib/erldis-0.0.1

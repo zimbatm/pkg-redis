@@ -4,13 +4,13 @@
 	dh $@
 
 clean:
-	make -C client-libaries/erlang clean
+	make -C client-libraries/erlang clean
 	dh $@
 
 override_dh_auto_build:
 	dh_auto_build
-	mkdir -p client-libaries/erlang/ebin
-	make -C client-libaries/erlang/src
+	mkdir -p client-libraries/erlang/ebin
+	make -C client-libraries/erlang/src
 
 override_dh_gencontrol:
 	erlang-depends
