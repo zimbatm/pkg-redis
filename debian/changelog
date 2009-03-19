@@ -1,5 +1,5 @@
-redis (1.0~beta6-1) UNRELEASED; urgency=low
+redis (1.0~beta7-1) UNRELEASED; urgency=low
 
   * Initial release. (Closes: #518700)
 
- -- Chris Lamb <lamby@debian.org>  Sun, 11 Jan 2009 22:13:33 +0000
+ -- Chris Lamb <lamby@debian.org>  Thu, 19 Mar 2009 11:21:41 +0000
