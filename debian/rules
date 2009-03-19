@@ -5,6 +5,7 @@
 
 clean:
 	make -C client-libraries/erlang clean
+	find -name ".svn" -type d -print0 | xargs -0r rm -rf
 	dh $@
 
 override_dh_auto_build:
