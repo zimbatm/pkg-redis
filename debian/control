@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Chris Lamb <lamby@debian.org>
 Build-Depends: debhelper (>= 7.0.50), erlang-dev (>= 1:11.b.2-3)
 Build-Depends-Indep: python-support
-Standards-Version: 3.8.0
+Standards-Version: 3.8.1
 Homepage: http://code.google.com/p/redis/
 Vcs-Git: git://git.chris-lamb.co.uk/debian/pkg-redis.git
 Vcs-Browser: http://git.chris-lamb.co.uk/?p=pkg-redis.git
