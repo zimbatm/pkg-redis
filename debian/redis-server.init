@@ -17,7 +17,7 @@ DAEMON=/usr/bin/redis-server
 DAEMON_ARGS=/etc/redis/redis.conf
 NAME=redis-server
 DESC=redis-server
-PIDFILE=/var/run/$NAME.pid
+PIDFILE=/var/run/redis.pid
 
 test -x $DAEMON || exit 0
 test -x $DAEMONBOOTSTRAP || exit 0
@@ -28,10 +28,8 @@ case "$1" in
   start)
 	echo -n "Starting $DESC: "
 	start-stop-daemon --start --quiet \
-		--background \
 		--umask 007 \
 		--pidfile $PIDFILE \
-		--make-pidfile \
 		--chuid redis:redis \
 		--exec $DAEMON -- $DAEMON_ARGS
 	echo "$NAME."
