@@ -1,3 +1,9 @@
+redis (1.0~beta8-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Chris Lamb <lamby@debian.org>  Tue, 24 Mar 2009 22:28:15 +0000
+
 redis (1.0~beta7-1) experimental; urgency=low
 
   * Initial release. (Closes: #518700)
