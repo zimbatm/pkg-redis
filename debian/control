@@ -53,6 +53,7 @@ Description: Persistent key-value database with network interface (Erlang client
 
 Package: libphp-redis
 Architecture: any
+Section: php
 Depends: ${misc:Depends}, php5
 Description: Persistent key-value database with network interface (PHP client library)
  Redis is a key-value database in a similar vein to memcache but the dataset
