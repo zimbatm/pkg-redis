@@ -7,7 +7,7 @@ Build-Depends-Indep: python-support
 Standards-Version: 3.8.1
 Homepage: http://code.google.com/p/redis/
 Vcs-Git: git://git.chris-lamb.co.uk/debian/pkg-redis.git
-Vcs-Browser: http://git.chris-lamb.co.uk/?p=pkg-redis.git
+Vcs-Browser: http://git.chris-lamb.co.uk/?p=debian/pkg-redis.git
 
 Package: redis-server
 Architecture: any
