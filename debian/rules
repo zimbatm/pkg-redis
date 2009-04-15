@@ -5,6 +5,7 @@
 
 clean:
 	make -C client-libraries/erlang clean
+	[ ! -f client-libraries/perl/Makefile ] || make -C client-libraries/perl clean
 	find -name ".svn" -type d -print0 | xargs -0r rm -rf
 	dh $@
 
@@ -12,6 +13,11 @@ override_dh_auto_build:
 	dh_auto_build
 	mkdir -p client-libraries/erlang/ebin
 	make -C client-libraries/erlang/src
+	cd client-libraries/perl && perl Makefile.PL INSTALLDIRS=vendor
+	make -C client-libraries/perl
+
+override_dh_auto_install:
+	make -C client-libraries/perl DESTDIR=$(CURDIR)/debian/libredis-perl install
 
 override_dh_gencontrol:
 	erlang-depends
