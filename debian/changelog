@@ -1,3 +1,9 @@
+redis (1:0.094-2) UNRELEASED; urgency=low
+
+  * Upload to unstable.
+
+ -- Chris Lamb <lamby@debian.org>  Wed, 06 May 2009 00:15:34 +0100
+
 redis (1:0.094-1) experimental; urgency=low
 
   * New upstream release.
