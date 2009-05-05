@@ -1,4 +1,4 @@
-redis (1:0.091-1) UNRELEASED; urgency=low
+redis (1:0.094-1) UNRELEASED; urgency=low
 
   * New upstream release.
   * Place libphp-redis package into 'php' section.
