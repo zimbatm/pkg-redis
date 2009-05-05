@@ -2,6 +2,7 @@ redis (1:0.094-1) UNRELEASED; urgency=low
 
   * New upstream release.
   * Place libphp-redis package into 'php' section.
+  * Update debian/copyright with new libraries.
   * Correct Vcs-Browser location.
 
  -- Chris Lamb <lamby@debian.org>  Wed, 15 Apr 2009 00:35:51 +0100
