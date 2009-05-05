@@ -1,9 +1,9 @@
-redis (1:0.094-2) UNRELEASED; urgency=low
+redis (1:0.094-2) experimental; urgency=low
 
   * Upload to unstable.
   * Add libredis-perl package.
 
- -- Chris Lamb <lamby@debian.org>  Wed, 06 May 2009 00:15:34 +0100
+ -- Chris Lamb <lamby@debian.org>  Wed, 06 May 2009 00:19:35 +0100
 
 redis (1:0.094-1) experimental; urgency=low
 
