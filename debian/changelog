@@ -1,3 +1,10 @@
+redis (1:0.094-3) UNRELEASED; urgency=low
+
+  * Really upload to unstable - I give "debchange -r" less credit than it
+    deserves.
+
+ -- Chris Lamb <lamby@debian.org>  Thu, 07 May 2009 22:00:50 +0100
+
 redis (1:0.094-2) experimental; urgency=low
 
   * Upload to unstable.
