@@ -1,3 +1,9 @@
+redis (1:0.096-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Chris Lamb <lamby@debian.org>  Sat, 09 May 2009 22:16:13 +0100
+
 redis (1:0.095-1) unstable; urgency=low
 
   * New upstream version.
