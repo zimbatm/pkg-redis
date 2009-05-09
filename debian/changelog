@@ -1,3 +1,9 @@
+redis (1:0.095-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Chris Lamb <lamby@debian.org>  Sat, 09 May 2009 12:50:26 +0100
+
 redis (1:0.094-3) unstable; urgency=low
 
   * Really upload to unstable - I give "debchange -r" less credit than it
