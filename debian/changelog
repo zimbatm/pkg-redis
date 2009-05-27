@@ -1,9 +1,9 @@
-redis (1:0.100-1) UNRELEASED; urgency=low
+redis (1:0.100-1) unstable; urgency=low
 
   * New upstream release.
     - Update debian/redis.conf
 
- -- Chris Lamb <lamby@debian.org>  Thu, 28 May 2009 00:13:31 +0100
+ -- Chris Lamb <lamby@debian.org>  Thu, 28 May 2009 00:31:37 +0100
 
 redis (1:0.096-1) unstable; urgency=low
 
