@@ -1,3 +1,8 @@
+# Don't recommend to users that they modify their init scripts - rather, they
+# should modify sysctl.conf.
+#
+#  -- Chris Lamb <lamby@debian.org>  Wed, 17 Jun 2009 10:27:44 +0100
+
 diff -urNad /tmp/bp-build/redis-0.900.orig/redis.c /tmp/bp-build/redis-0.900/redis.c
 --- redis-0.900.orig/redis.c	2009-06-17 10:03:36.000000000 +0100
 +++ redis-0.900/redis.c	2009-06-17 10:06:22.000000000 +0100
