@@ -1,6 +1,7 @@
 redis (1:0.900-1) UNRELEASED; urgency=low
 
   * New upstream release.
+  * Update versionmangle in debian/watch.
 
  -- Chris Lamb <lamby@debian.org>  Wed, 17 Jun 2009 09:57:43 +0100
 

@@ -1,2 +1,2 @@
 version=3
-opts="uversionmangle=s/^beta-/1.0~beta/" http://code.google.com/p/redis/downloads/list http://redis.googlecode.com/files/redis-(.*).tar.gz
+opts="uversionmangle=s/_\d$//" http://code.google.com/p/redis/downloads/list http://redis.googlecode.com/files/redis-(.*).tar.gz
