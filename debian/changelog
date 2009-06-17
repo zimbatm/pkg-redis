@@ -1,6 +1,7 @@
 redis (1:0.900-1) UNRELEASED; urgency=low
 
   * New upstream release.
+    - Update debian/redis.conf
   * Update versionmangle in debian/watch.
   * "/proc/sys/vm/overcommit_memory" message:
     - Recommend modifying /etc/sysctl.conf instead of using "boot scripts"
