@@ -1,0 +1,12 @@
+diff -urNad /tmp/bp-build/redis-0.900.orig/redis.c /tmp/bp-build/redis-0.900/redis.c
+--- redis-0.900.orig/redis.c	2009-06-17 10:03:36.000000000 +0100
++++ redis-0.900/redis.c	2009-06-17 10:06:22.000000000 +0100
+@@ -4402,7 +4402,7 @@
+ 
+ void linuxOvercommitMemoryWarning(void) {
+     if (linuxOvercommitMemoryValue() == 0) {
+-        redisLog(REDIS_WARNING,"WARNING overcommit_memory is set to 0! Background save may fail under low condition memory. To fix this issue add 'echo 1 > /proc/sys/vm/overcommit_memory' in your init scripts.");
++        redisLog(REDIS_WARNING,"WARNING overcommit_memory is set to 0! Background save may fail under low condition memory. To fix this issue add '/proc/sys/vm/overcommit_memory = 1' to /etc/sysctl.conf.");
+     }
+ }
+ #endif /* __linux__ */
