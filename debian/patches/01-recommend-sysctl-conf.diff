@@ -11,7 +11,7 @@ diff -urNad /tmp/bp-build/redis-0.900.orig/redis.c /tmp/bp-build/redis-0.900/red
  void linuxOvercommitMemoryWarning(void) {
      if (linuxOvercommitMemoryValue() == 0) {
 -        redisLog(REDIS_WARNING,"WARNING overcommit_memory is set to 0! Background save may fail under low condition memory. To fix this issue add 'echo 1 > /proc/sys/vm/overcommit_memory' in your init scripts.");
-+        redisLog(REDIS_WARNING,"WARNING overcommit_memory is set to 0! Background save may fail under low condition memory. To fix this issue add '/proc/sys/vm/overcommit_memory = 1' to /etc/sysctl.conf.");
++        redisLog(REDIS_WARNING,"WARNING overcommit_memory is set to 0! Background save may fail under low condition memory. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf.");
      }
  }
  #endif /* __linux__ */

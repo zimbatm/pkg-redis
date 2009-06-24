@@ -1,3 +1,10 @@
+redis (1:0.900-3) UNRELEASED; urgency=low
+
+  * Correct "/proc/sys/vm/overcommit_memory" message to print the correct
+    string to add to sysctl.conf.
+
+ -- Chris Lamb <lamby@debian.org>  Thu, 25 Jun 2009 00:06:55 +0100
+
 redis (1:0.900-2) unstable; urgency=low
 
   * Add patch to avoid mangling the stacktrace on SIGSEGV using X86-specific
