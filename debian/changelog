@@ -2,6 +2,7 @@ redis (1:0.900-2) UNRELEASED; urgency=low
 
   * Add patch to avoid mangling the stacktrace on SIGSEGV using X86-specific
     ucontext struct, etc. (Closes: #533763)
+  * Bump Standards-Version to 3.8.2.
 
  -- Chris Lamb <lamby@debian.org>  Wed, 24 Jun 2009 00:44:00 +0100
 
