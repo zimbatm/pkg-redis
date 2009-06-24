@@ -1,0 +1,33 @@
+# Only mangle the stracktrace on i386, amd64 and ia64. We could probably
+# support the other architectures if pushed.
+#
+# -- Chris Lamb <lamby@debian.org>  Wed, 24 Jun 2009 23:44:08 +0100
+
+diff -urNad /tmp/bp-build/redis-0.900.orig/redis.c /tmp/bp-build/redis-0.900/redis.c
+--- redis-0.900.orig/redis.c	2009-06-24 23:41:25.000000000 +0100
++++ redis-0.900/redis.c	2009-06-24 23:43:10.000000000 +0100
+@@ -4303,8 +4303,12 @@
+     return (void*) uc->uc_mcontext.eip;
+ #elif defined(__APPLE__)
+     return (void*) uc->uc_mcontext->__ss.__eip;
+-#else /* Linux */
++#elif defined(__i386__) || defined (__X86_64__)
+     return (void*) uc->uc_mcontext.gregs[REG_EIP];
++#elif defined(__ia64__)
++    return (void*) uc->uc_mcontext.sc_ip;
++#else
++    return (void*) NULL;
+ #endif
+ }
+ 
+@@ -4346,7 +4350,9 @@
+     
+     trace_size = backtrace(trace, 100);
+     /* overwrite sigaction with caller's address */
+-    trace[1] = getMcontextEip(uc);
++    if (getMcontextEip(uc) != NULL) {
++        trace[1] = getMcontextEip(uc);
++    }
+     messages = backtrace_symbols(trace, trace_size);
+ 
+     for (i=1; i<trace_size; ++i) {
