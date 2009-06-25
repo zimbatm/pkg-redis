@@ -1,11 +1,11 @@
-redis (1:0.900-3) UNRELEASED; urgency=low
+redis (1:0.900-3) unstable; urgency=low
 
   * Actually add architecture patch introducted in 1:0.900-2 to quilt 'series'
     (Closes: #533763)
   * Correct "/proc/sys/vm/overcommit_memory" message to print the correct
     string to add to sysctl.conf.
 
- -- Chris Lamb <lamby@debian.org>  Thu, 25 Jun 2009 00:06:55 +0100
+ -- Chris Lamb <lamby@debian.org>  Thu, 25 Jun 2009 12:13:02 +0100
 
 redis (1:0.900-2) unstable; urgency=low
 
