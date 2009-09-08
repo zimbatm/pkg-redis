@@ -4,6 +4,7 @@ redis (1:1.0-1) UNRELEASED; urgency=low
   * Bump Standards-Version to 3.8.3.
   * Drop 01-recommend-sysctl-conf.diff; applied upstream.
   * Drop 02-warn-after-daemonising.diff; applied upstream.
+  * Drop 03-only-mangle-trace-on-ia64-and-x86.diff; applied upstream.
 
  -- Chris Lamb <lamby@debian.org>  Tue, 08 Sep 2009 21:58:31 +0100
 
