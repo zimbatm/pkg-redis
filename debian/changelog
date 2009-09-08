@@ -2,10 +2,11 @@ redis (1:1.0-1) UNRELEASED; urgency=low
 
   * New upstream release.
   * Bump Standards-Version to 3.8.3.
-  * Drop 01-recommend-sysctl-conf.diff; applied upstream.
-  * Drop 02-warn-after-daemonising.diff; applied upstream.
-  * Drop 03-only-mangle-trace-on-ia64-and-x86.diff; applied upstream.
-  * Drop quilt Build-Depends and remove patches/series.
+  * Drop patch system:
+    - 01-recommend-sysctl-conf.diff; applied upstream.
+    - 02-warn-after-daemonising.diff; applied upstream.
+    - 03-only-mangle-trace-on-ia64-and-x86.diff; applied upstream.
+    - Drop quilt Build-Depends and remove patches/series.
   * Use "override_dh_auto_clean" instead of "clean" target.
 
  -- Chris Lamb <lamby@debian.org>  Tue, 08 Sep 2009 21:58:31 +0100
