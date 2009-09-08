@@ -3,7 +3,8 @@
 %:
 	dh $@
 
-clean:
+override_dh_auto_clean:
+	dh_auto_clean
 	make -C client-libraries/erlang clean
 	[ ! -f client-libraries/perl/Makefile ] || make -C client-libraries/perl clean
 	find -name ".svn" -type d -print0 | xargs -0r rm -rf
