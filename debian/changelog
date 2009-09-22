@@ -1,9 +1,9 @@
-redis (1:1.01-1) UNRELEASED; urgency=low
+redis (1:1.01-1) unstable; urgency=low
 
   * New upstream release.
     - "maxmemory now works well on 64bit systems with > 4GB of RAM"
 
- -- Chris Lamb <lamby@debian.org>  Tue, 22 Sep 2009 21:50:51 +0100
+ -- Chris Lamb <lamby@debian.org>  Tue, 22 Sep 2009 21:53:48 +0100
 
 redis (1:1.0-1) unstable; urgency=low
 
