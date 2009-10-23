@@ -1,8 +1,8 @@
-redis (1:1.02-1) UNRELEASED; urgency=low
+redis (1:1.02-1) unstable; urgency=low
 
   * New upstream release.
 
- -- Chris Lamb <lamby@debian.org>  Fri, 23 Oct 2009 15:58:52 +0100
+ -- Chris Lamb <lamby@debian.org>  Fri, 23 Oct 2009 16:26:45 +0100
 
 redis (1:1.01-1) unstable; urgency=low
 
