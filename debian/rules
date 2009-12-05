@@ -1,5 +1,7 @@
 #!/usr/bin/make -f
 
+unexport CFLAGS
+
 %:
 	dh $@
 
