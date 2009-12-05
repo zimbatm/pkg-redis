@@ -1,13 +1,13 @@
 redis (2:1.1.90~beta-1) UNRELEASED; urgency=low
 
-  * Modify debian/watch to consider "-beta" the same as "~beta" for correct
-    dpkg ordering.
   * New upstream release. We bump the epoch as dpkg considers 1.1.90 to be less
     than 1.02.
   * Don't build client libraries anymore; not part of the upstream tarball
     anymore.
   * Don't export CFLAGS from debian/rules to prevent FTBFS when dpkg-provided
     CFLAGS does not include --std=c99.
+  * Modify debian/watch to consider "-beta" the same as "~beta" for correct
+    dpkg ordering.
 
  -- Chris Lamb <lamby@debian.org>  Sat, 05 Dec 2009 21:45:38 +0000
 
