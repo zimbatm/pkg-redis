@@ -1,3 +1,10 @@
+redis (1:1.02-2) UNRELEASED; urgency=low
+
+  * Modify debian/watch to consider "-beta" the same as "~beta" for correct
+    dpkg ordering.
+
+ -- Chris Lamb <lamby@debian.org>  Sat, 05 Dec 2009 21:45:12 +0000
+
 redis (1:1.02-1) unstable; urgency=low
 
   * New upstream release.
