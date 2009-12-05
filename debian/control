@@ -2,8 +2,7 @@ Source: redis
 Section: misc
 Priority: optional
 Maintainer: Chris Lamb <lamby@debian.org>
-Build-Depends: debhelper (>= 7.0.50), erlang-dev (>= 1:11.b.2-3)
-Build-Depends-Indep: python-support
+Build-Depends: debhelper (>= 7.0.50)
 Standards-Version: 3.8.3
 Homepage: http://code.google.com/p/redis/
 Vcs-Git: git://git.chris-lamb.co.uk/debian/pkg-redis.git
@@ -29,46 +28,3 @@ Description: Persistent key-value database with network interface (Documentation
  manipulating and querying data structures such as lists and sets.
  .
  This package contains the documentation for Redis.
-
-Package: python-redis
-Section: python
-Architecture: all
-Depends: ${misc:Depends}, ${python:Depends}
-Description: Persistent key-value database with network interface (Python client library)
- Redis is a key-value database in a similar vein to memcache but the dataset
- is non-volatile. Redis additionally provides native support for atomically
- manipulating and querying data structures such as lists and sets.
- .
- This package contains the Python client library.
-
-Package: erlang-redis
-Architecture: any
-Depends: ${misc:Depends}, ${erlang-nox:Depends}
-Description: Persistent key-value database with network interface (Erlang client library)
- Redis is a key-value database in a similar vein to memcache but the dataset
- is non-volatile. Redis additionally provides native support for atomically
- manipulating and querying data structures such as lists and sets.
- .
- This package contains the Erlang client library.
-
-Package: libphp-redis
-Architecture: any
-Section: php
-Depends: ${misc:Depends}, php5
-Description: Persistent key-value database with network interface (PHP client library)
- Redis is a key-value database in a similar vein to memcache but the dataset
- is non-volatile. Redis additionally provides native support for atomically
- manipulating and querying data structures such as lists and sets.
- .
- This package contains the PHP client library.
-
-Package: libredis-perl
-Architecture: any
-Section: perl
-Depends: ${misc:Depends}, ${perl:Depends}, libdata-dump-perl
-Description: Persistent key-value database with network interface (Perl client library)
- Redis is a key-value database in a similar vein to memcache but the dataset
- is non-volatile. Redis additionally provides native support for atomically
- manipulating and querying data structures such as lists and sets.
- .
- This package contains the Perl client library.
