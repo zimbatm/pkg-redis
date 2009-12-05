@@ -1,4 +1,4 @@
-redis (2:1.1.90~beta-1) UNRELEASED; urgency=low
+redis (2:1.1.90~beta-1) unstable; urgency=low
 
   * New upstream release:
     - Bump the epoch as dpkg considers 1.1.90 to be less than 1.02.
@@ -10,7 +10,7 @@ redis (2:1.1.90~beta-1) UNRELEASED; urgency=low
   * Modify debian/watch to consider "-beta" the same as "~beta" for correct
     dpkg ordering.
 
- -- Chris Lamb <lamby@debian.org>  Sat, 05 Dec 2009 21:45:38 +0000
+ -- Chris Lamb <lamby@debian.org>  Sat, 05 Dec 2009 22:10:32 +0000
 
 redis (1:1.02-1) unstable; urgency=low
 
