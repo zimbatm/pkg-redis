@@ -1,5 +1,5 @@
 Source: redis
-Section: misc
+Section: database
 Priority: optional
 Maintainer: Chris Lamb <lamby@debian.org>
 Build-Depends: debhelper (>= 7.0.50)
