@@ -1,6 +1,8 @@
 redis (2:1.1.95~beta-1) UNRELEASED; urgency=low
 
   * New upstream release.
+  * Sync debian/redis.conf with upstream version (new "rdbcompression" and
+    "masterauth" commands).
 
  -- Chris Lamb <lamby@debian.org>  Sun, 10 Jan 2010 22:51:21 +0000
 
