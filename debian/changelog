@@ -1,6 +1,7 @@
 redis (2:1.1.95~beta-2) UNRELEASED; urgency=low
 
   * Set source section to "database" from "misc".
+  * Add redis-cli binary to "redis-server" package.
 
  -- Chris Lamb <lamby@debian.org>  Sun, 10 Jan 2010 23:22:50 +0000
 

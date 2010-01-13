@@ -1,2 +1,3 @@
 redis-server		/usr/bin
 debian/redis.conf	/etc/redis
+redis-cli		/usr/bin
