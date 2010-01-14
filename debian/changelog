@@ -2,6 +2,7 @@ redis (2:1.2.0-1) UNRELEASED; urgency=low
 
   * New upstream stable release.
   * Switch to dpkg-source 3.0 (quilt) format.
+  * Patch out printing of pid on startup.
 
  -- Chris Lamb <lamby@debian.org>  Thu, 14 Jan 2010 15:41:42 +0000
 
