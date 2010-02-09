@@ -3,6 +3,7 @@ redis (2:1.2.0-2) UNRELEASED; urgency=low
   * Add Bash completion script for redis-cli by Steve Kemp <skx@debian.org>.
     (Closes: #565358)
   * Bump Standards-Version to 3.8.4.
+  * Add $remote_fs to LSB "Required-{Start,Stop}" initscript headers.
 
  -- Chris Lamb <lamby@debian.org>  Tue, 09 Feb 2010 14:14:38 +0000
 
