@@ -1,3 +1,9 @@
+redis (2:1.2.2-2) UNRELEASED; urgency=low
+
+  * Really fix segfault in dupClientReplyValue. (Closes: #570371)
+
+ -- Chris Lamb <lamby@debian.org>  Fri, 19 Feb 2010 09:16:22 +0000
+
 redis (2:1.2.2-1) unstable; urgency=low
 
   * New upstream release.

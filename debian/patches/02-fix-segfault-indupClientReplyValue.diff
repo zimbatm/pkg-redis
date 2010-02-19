@@ -1,0 +1,16 @@
+
+Fix a segfault in dupClientReplyValue. See #570371 for the origin. Thanks to Hirling Endre
+<endre@dawn.royalcomp.hu> for the patch.
+
+diff -urNad /tmp/bp-build/redis-1.2.2.orig/redis.c /tmp/bp-build/redis-1.2.2/redis.c
+--- redis-1.2.2.orig/redis.c	2010-02-19 09:10:15.000000000 +0000
++++ redis-1.2.2/redis.c	2010-02-19 09:12:07.000000000 +0000
+@@ -1989,7 +1989,7 @@
+ 
+ static void *dupClientReplyValue(void *o) {
+     incrRefCount((robj*)o);
+-    return 0;
++    return o;
+ }
+ 
+ static redisClient *createClient(int fd) {

@@ -1,1 +1,2 @@
 01-dont-print-pid-on-startup.diff
+02-fix-segfault-indupClientReplyValue.diff
