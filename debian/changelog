@@ -2,7 +2,7 @@ redis (2:1.2.3-1) unstable; urgency=low
 
   * New upstream release.
 
- -- Chris Lamb <lamby@debian.org>  Tue, 02 Mar 2010 16:44:21 +0000
+ -- Chris Lamb <lamby@debian.org>  Tue, 02 Mar 2010 16:45:07 +0000
 
 redis (2:1.2.2-2) unstable; urgency=low
 
