@@ -1,10 +1,10 @@
-redis (2:1.2.5-1) UNRELEASED; urgency=low
+redis (2:1.2.5-1) unstable; urgency=low
 
   * New upstream release.
   * Drop 02-fix-segfault-indupClientReplyValue.diff; applied upstream via
     <http://code.google.com/p/redis/issues/detail?id=177>.
 
- -- Chris Lamb <lamby@debian.org>  Thu, 11 Mar 2010 21:29:58 +0000
+ -- Chris Lamb <lamby@debian.org>  Thu, 11 Mar 2010 21:34:37 +0000
 
 redis (2:1.2.4-1) unstable; urgency=low
 
