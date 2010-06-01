@@ -2,6 +2,7 @@ redis (2:2.0.0~rc1-1) UNRELEASED; urgency=low
 
   * New upstream release candidate.
   * Remove '01-dont-print-pid-on-startup.diff' patch.
+  * Update local copy of redis.conf.
 
  -- Chris Lamb <lamby@debian.org>  Tue, 01 Jun 2010 10:42:00 +0100
 
