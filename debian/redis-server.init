@@ -20,7 +20,6 @@ DESC=redis-server
 PIDFILE=/var/run/redis.pid
 
 test -x $DAEMON || exit 0
-test -x $DAEMONBOOTSTRAP || exit 0
 
 set -e
 
