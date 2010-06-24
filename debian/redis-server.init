@@ -53,7 +53,7 @@ case "$1" in
 
   status)
 	echo -n "$DESC is "
-	if [ "$(tr "\000" "\n" < /proc/$(cat $PIDFILE 2>/dev/null)/cmdline | head -n1)" = ${DAEMON} ]
+	if start-stop-daemon --stop --quiet --signal 0 --name ${NAME} --pidfile ${PIDFILE}
 	then
 		echo "running"
 	else
