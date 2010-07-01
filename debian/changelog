@@ -1,3 +1,9 @@
+redis (2:2.0.0~rc2-1) UNRELEASED; urgency=low
+
+  * New upstream RC release.
+
+ -- Chris Lamb <lamby@debian.org>  Thu, 01 Jul 2010 23:14:22 +0100
+
 redis (2:2.0.0~rc1-2) experimental; urgency=low
 
   * Add 'status' command to initscript.
