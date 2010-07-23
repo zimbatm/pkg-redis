@@ -1,9 +1,9 @@
-redis (2:2.0.0~rc3-1) UNRELEASED; urgency=low
+redis (2:2.0.0~rc3-1) experimental; urgency=low
 
   * New upstream RC release.
   * Bump Standards-Version to 3.9.0.
 
- -- Chris Lamb <lamby@debian.org>  Fri, 23 Jul 2010 11:50:37 +0100
+ -- Chris Lamb <lamby@debian.org>  Fri, 23 Jul 2010 11:59:16 +0100
 
 redis (2:2.0.0~rc2-1) experimental; urgency=low
 
