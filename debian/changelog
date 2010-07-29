@@ -2,6 +2,8 @@ redis (2:2.0.0~rc4-1) UNRELEASED; urgency=low
 
   * New upstream RC release.
   * Bump Standards-Version to 3.9.1.
+  * Remove mkreleasehdr.sh when building to avoid debian diff - it will
+    regenerate release.h with different contents.
 
  -- Chris Lamb <lamby@debian.org>  Thu, 29 Jul 2010 09:00:49 -0400
 
