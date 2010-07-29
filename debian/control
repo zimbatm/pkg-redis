@@ -3,7 +3,7 @@ Section: database
 Priority: optional
 Maintainer: Chris Lamb <lamby@debian.org>
 Build-Depends: debhelper (>= 7.0.50)
-Standards-Version: 3.9.0
+Standards-Version: 3.9.1
 Homepage: http://code.google.com/p/redis/
 Vcs-Git: git://git.chris-lamb.co.uk/debian/pkg-redis.git
 Vcs-Browser: http://git.chris-lamb.co.uk/?p=debian/pkg-redis.git
