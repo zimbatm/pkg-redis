@@ -1,10 +1,10 @@
-redis (2:2.0.1-1) UNRELEASED; urgency=low
+redis (2:2.0.1-1) experimental; urgency=low
 
   * New upstream release.
   * Update debian/watch to not match old tarballs.
   * Upstream now ships an install target; let's just ignore it for now.
 
- -- Chris Lamb <lamby@debian.org>  Fri, 10 Sep 2010 14:26:17 +0100
+ -- Chris Lamb <lamby@debian.org>  Fri, 10 Sep 2010 14:40:01 +0100
 
 redis (2:2.0.0~rc4-1) experimental; urgency=low
 
