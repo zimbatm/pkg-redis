@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Chris Lamb <lamby@debian.org>
 Build-Depends: debhelper (>= 7.0.50)
 Standards-Version: 3.9.1
-Homepage: http://code.google.com/p/redis/
+Homepage: http://redis.io/
 Vcs-Git: git://github.com/lamby/pkg-redis.git
 Vcs-Browser: https://github.com/lamby/pkg-redis
 
