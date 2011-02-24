@@ -1,6 +1,7 @@
 redis (2:2.2.1-1) UNRELEASED; urgency=low
 
   * New upstream release. (Closes: #604076)
+  * Update install paths.
 
  -- Chris Lamb <lamby@debian.org>  Thu, 24 Feb 2011 19:23:57 +0000
 
