@@ -1,10 +1,10 @@
-redis (2:2.2.2-1) UNRELEASED; urgency=low
+redis (2:2.2.2-1) unstable; urgency=low
 
   * New upstream release.
   * Use userdel over deluser to prevent problems when purging package.
     (Closes: #618326)
 
- -- Chris Lamb <lamby@debian.org>  Tue, 15 Mar 2011 11:01:57 +0000
+ -- Chris Lamb <lamby@debian.org>  Tue, 15 Mar 2011 11:13:21 +0000
 
 redis (2:2.2.1-1) unstable; urgency=low
 
