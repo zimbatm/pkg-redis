@@ -1,6 +1,8 @@
 redis (2:2.2.8-1) UNRELEASED; urgency=low
 
   * New upstream release.
+  * Add patch from Ubuntu to fix FTBFS due to --as-needed linking.
+    Thanks to Nigel Babu <nigelbabu@ubuntu.com>. (Closes: #628056)
 
  -- Chris Lamb <lamby@debian.org>  Tue, 07 Jun 2011 16:32:15 +0100
 

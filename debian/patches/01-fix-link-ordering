@@ -1,0 +1,50 @@
+# Descrption: Fix the failed to build from source due to the --as-needed linking
+# Bug: http://code.google.com/p/redis/issues/detail?id=562
+# Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=628056
+# Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/redis/+bug/771061
+# Author: Nigel Babu <nigelbabu@ubuntu.com>
+
+diff -urNad /tmp/bp-build/redis-2.2.8.orig/src/Makefile /tmp/bp-build/redis-2.2.8/src/Makefile
+--- redis-2.2.8.orig/src/Makefile	2011-06-07 16:36:25.990448542 +0100
++++ redis-2.2.8/src/Makefile	2011-06-07 16:36:39.438359673 +0100
+@@ -19,7 +19,7 @@
+   CCLINK+= -ltcmalloc
+   CFLAGS+= -DUSE_TCMALLOC
+ endif
+-CCOPT= $(CFLAGS) $(CCLINK) $(ARCH) $(PROF)
++CCOPT= $(CFLAGS) $(ARCH) $(PROF)
+ 
+ PREFIX= /usr/local
+ INSTALL_BIN= $(PREFIX)/bin
+@@ -111,26 +111,26 @@
+ 	cd ../deps/linenoise && $(MAKE) ARCH="$(ARCH)"
+ 
+ redis-server: $(OBJ)
+-	$(CC) -o $(PRGNAME) $(CCOPT) $(DEBUG) $(OBJ)
++	$(CC) -o $(PRGNAME) $(CCOPT) $(DEBUG) $(OBJ) $(CCLINK)
+ 
+ redis-benchmark: dependencies $(BENCHOBJ)
+ 	cd ../deps/hiredis && $(MAKE) static
+-	$(CC) -o $(BENCHPRGNAME) $(CCOPT) $(DEBUG) $(BENCHOBJ) ../deps/hiredis/libhiredis.a
++	$(CC) -o $(BENCHPRGNAME) $(CCOPT) $(DEBUG) $(BENCHOBJ) ../deps/hiredis/libhiredis.a $(CCLINK)
+ 
+ redis-benchmark.o:
+ 	$(CC) -c $(CFLAGS) -I../deps/hiredis $(DEBUG) $(COMPILE_TIME) $<
+ 
+ redis-cli: dependencies $(CLIOBJ)
+-	$(CC) -o $(CLIPRGNAME) $(CCOPT) $(DEBUG) $(CLIOBJ) ../deps/hiredis/libhiredis.a ../deps/linenoise/linenoise.o
++	$(CC) -o $(CLIPRGNAME) $(CCOPT) $(DEBUG) $(CLIOBJ) ../deps/hiredis/libhiredis.a ../deps/linenoise/linenoise.o $(CCLINK)
+ 
+ redis-cli.o:
+ 	$(CC) -c $(CFLAGS) -I../deps/hiredis -I../deps/linenoise $(DEBUG) $(COMPILE_TIME) $<
+ 
+ redis-check-dump: $(CHECKDUMPOBJ)
+-	$(CC) -o $(CHECKDUMPPRGNAME) $(CCOPT) $(DEBUG) $(CHECKDUMPOBJ)
++	$(CC) -o $(CHECKDUMPPRGNAME) $(CCOPT) $(DEBUG) $(CHECKDUMPOBJ) $(CCLINK)
+ 
+ redis-check-aof: $(CHECKAOFOBJ)
+-	$(CC) -o $(CHECKAOFPRGNAME) $(CCOPT) $(DEBUG) $(CHECKAOFOBJ)
++	$(CC) -o $(CHECKAOFPRGNAME) $(CCOPT) $(DEBUG) $(CHECKAOFOBJ) $(CCLINK)
+ 
+ .c.o:
+ 	$(CC) -c $(CFLAGS) $(DEBUG) $(COMPILE_TIME) $<
