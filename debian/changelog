@@ -1,9 +1,9 @@
-redis (2:2.2.10-1) UNRELEASED; urgency=low
+redis (2:2.2.10-1) unstable; urgency=low
 
   * New upstream release.
   * Bump Standards-Version to 3.9.2.
 
- -- Chris Lamb <lamby@debian.org>  Sat, 18 Jun 2011 14:51:51 +0100
+ -- Chris Lamb <lamby@debian.org>  Sat, 18 Jun 2011 14:53:41 +0100
 
 redis (2:2.2.8-1) unstable; urgency=low
 
