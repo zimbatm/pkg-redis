@@ -1,4 +1,4 @@
-# Descrption: Fix the failed to build from source due to the --as-needed linking
+# Description: Fix the failed to build from source due to the --as-needed linking
 # Bug: http://code.google.com/p/redis/issues/detail?id=562
 # Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=628056
 # Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/redis/+bug/771061
