@@ -1,9 +1,9 @@
-redis (2:2.2.11-1) UNRELEASED; urgency=low
+redis (2:2.2.11-1) unstable; urgency=low
 
   * New upstream release.
   * Correct spelling of "Description" in patch system.
 
- -- Chris Lamb <lamby@debian.org>  Sat, 02 Jul 2011 00:42:52 +0100
+ -- Chris Lamb <lamby@debian.org>  Sat, 02 Jul 2011 00:43:37 +0100
 
 redis (2:2.2.10-1) unstable; urgency=low
 
