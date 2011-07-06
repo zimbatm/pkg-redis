@@ -1,10 +1,10 @@
-redis (2:2.2.11-2) UNRELEASED; urgency=low
+redis (2:2.2.11-2) unstable; urgency=low
 
   * Fix FTBFS on kfreebsd. Thanks to Christoph Egger <christoph@debian.org> for
     the patch. (Closes: #632499)
   * Ship redis-check-aof and redis-check-dump. (Closes: #632858)
 
- -- Chris Lamb <lamby@debian.org>  Wed, 06 Jul 2011 21:46:24 +0100
+ -- Chris Lamb <lamby@debian.org>  Wed, 06 Jul 2011 22:36:18 +0100
 
 redis (2:2.2.11-1) unstable; urgency=low
 
