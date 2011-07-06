@@ -1,3 +1,9 @@
+redis (2:2.2.11-2) UNRELEASED; urgency=low
+
+  * Ship redis-check-aof and redis-check-dump. (Closes: #632858)
+
+ -- Chris Lamb <lamby@debian.org>  Wed, 06 Jul 2011 21:46:24 +0100
+
 redis (2:2.2.11-1) unstable; urgency=low
 
   * New upstream release.
