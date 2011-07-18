@@ -1,11 +1,11 @@
-redis (2:2.2.11-3) UNRELEASED; urgency=low
+redis (2:2.2.11-3) unstable; urgency=low
 
   * Change default loglevel to "notice".
   * Wait forever for redis to stop - only waiting 10 seconds could cause data
     loss.
   * Set a proper default location for socket file. (Closes: #632931)
 
- -- Chris Lamb <lamby@debian.org>  Mon, 18 Jul 2011 12:13:35 +0100
+ -- Chris Lamb <lamby@debian.org>  Mon, 18 Jul 2011 13:25:16 +0100
 
 redis (2:2.2.11-2) unstable; urgency=low
 
