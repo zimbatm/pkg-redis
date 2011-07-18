@@ -1,3 +1,9 @@
+redis (2:2.2.11-3) UNRELEASED; urgency=low
+
+  * Change default loglevel to "notice".
+
+ -- Chris Lamb <lamby@debian.org>  Mon, 18 Jul 2011 12:13:35 +0100
+
 redis (2:2.2.11-2) unstable; urgency=low
 
   * Fix FTBFS on kfreebsd. Thanks to Christoph Egger <christoph@debian.org> for
