@@ -2,7 +2,7 @@ redis (2:2.2.11-3~bpo60+1) squeeze-backports; urgency=low
 
   * Rebuild for squeeze-backports.
 
- -- Chris Lamb <lamby@debian.org>  Mon, 18 Jul 2011 13:30:13 +0100
+ -- Chris Lamb <lamby@debian.org>  Mon, 18 Jul 2011 13:31:34 +0100
 
 redis (2:2.2.11-3) unstable; urgency=low
 
