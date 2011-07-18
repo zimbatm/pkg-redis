@@ -37,7 +37,7 @@ case "$1" in
 	;;
   stop)
 	echo -n "Stopping $DESC: "
-	if start-stop-daemon --stop --retry 10 --quiet --oknodo --pidfile $PIDFILE --exec $DAEMON
+	if start-stop-daemon --stop --retry forever/QUIT/1 --quiet --oknodo --pidfile $PIDFILE --exec $DAEMON
 	then
 		echo "$NAME."
 	else

@@ -1,6 +1,8 @@
 redis (2:2.2.11-3) UNRELEASED; urgency=low
 
   * Change default loglevel to "notice".
+  * Wait forever for redis to stop - only waiting 10 seconds could cause data
+    loss.
 
  -- Chris Lamb <lamby@debian.org>  Mon, 18 Jul 2011 12:13:35 +0100
 
