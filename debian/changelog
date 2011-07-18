@@ -1,4 +1,27 @@
-redis (2:2.2.10-1~bpo60+1) squeeze-backports; urgency=low
+redis (2:2.2.11-3~bpo60+1) squeeze-backports; urgency=low
+
+  * Rebuild for squeeze-backports.
+
+ -- Chris Lamb <lamby@debian.org>  Mon, 18 Jul 2011 13:30:13 +0100
+
+redis (2:2.2.11-3) unstable; urgency=low
+
+  * Change default loglevel to "notice".
+  * Wait forever for redis to stop - only waiting 10 seconds could cause data
+    loss.
+  * Set a proper default location for socket file. (Closes: #632931)
+
+ -- Chris Lamb <lamby@debian.org>  Mon, 18 Jul 2011 13:25:16 +0100
+
+redis (2:2.2.11-2) unstable; urgency=low
+
+  * Fix FTBFS on kfreebsd. Thanks to Christoph Egger <christoph@debian.org> for
+    the patch. (Closes: #632499)
+  * Ship redis-check-aof and redis-check-dump. (Closes: #632858)
+
+ -- Chris Lamb <lamby@debian.org>  Wed, 06 Jul 2011 22:36:18 +0100
+
+redis (2:2.2.11-1) unstable; urgency=low
 
   * Rebuild for squeeze-backports.
 
