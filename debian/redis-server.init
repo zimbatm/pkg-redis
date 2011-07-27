@@ -17,7 +17,9 @@ DAEMON=/usr/bin/redis-server
 DAEMON_ARGS=/etc/redis/redis.conf
 NAME=redis-server
 DESC=redis-server
-PIDFILE=/var/run/redis.pid
+
+RUNDIR=/var/run/redis
+PIDFILE=$RUNDIR/redis-server.pid
 
 test -x $DAEMON || exit 0
 
@@ -26,8 +28,10 @@ set -e
 case "$1" in
   start)
 	echo -n "Starting $DESC: "
+	mkdir -p $RUNDIR
 	touch $PIDFILE
-	chown redis:redis $PIDFILE
+	chown redis:redis $RUNDIR $PIDFILE
+	chmod 755 $RUNDIR
 	if start-stop-daemon --start --quiet --umask 007 --pidfile $PIDFILE --chuid redis:redis --exec $DAEMON -- $DAEMON_ARGS
 	then
 		echo "$NAME."
