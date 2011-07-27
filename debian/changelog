@@ -3,6 +3,7 @@ redis (2:2.2.12-1) UNRELEASED; urgency=low
   * New upstream release.
   * Move runtime files to /var/run/redis/ and set that as default location for
     socket file. Thanks to Sandro Tosi <morph@debian.org>. (Closes: #632931)
+  * Refresh fix-link-ordering patch.
 
  -- Chris Lamb <lamby@debian.org>  Wed, 27 Jul 2011 18:49:58 +0200
 
