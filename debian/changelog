@@ -1,4 +1,4 @@
-redis (2:2.2.12-1) UNRELEASED; urgency=low
+redis (2:2.2.12-1) unstable; urgency=low
 
   * New upstream release.
   * Move runtime files to /var/run/redis/ and set that as default location for
@@ -7,7 +7,7 @@ redis (2:2.2.12-1) UNRELEASED; urgency=low
   * Use "defined(__linux__) || defined(__GLIBC__)" for kfreebsd compatibility.
     Thanks to Robert Millan <rmh@debian.org>. (Closes: #632499)
 
- -- Chris Lamb <lamby@debian.org>  Wed, 27 Jul 2011 18:49:58 +0200
+ -- Chris Lamb <lamby@debian.org>  Wed, 27 Jul 2011 19:20:26 +0200
 
 redis (2:2.2.11-3) unstable; urgency=low
 
