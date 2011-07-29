@@ -1,3 +1,9 @@
+redis (2:2.4.0~rc5-1) UNRELEASED; urgency=low
+
+  * New upstream RC release.
+
+ -- Chris Lamb <lamby@debian.org>  Fri, 29 Jul 2011 21:03:55 +0200
+
 redis (2:2.2.12-1) unstable; urgency=low
 
   * New upstream release.
