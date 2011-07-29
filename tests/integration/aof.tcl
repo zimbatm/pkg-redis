@@ -32,6 +32,7 @@ tags {"aof"} {
 
     start_server_aof [list dir $server_path] {
         test "Unfinished MULTI: Server should not have been started" {
+            if {$::valgrind} {after 2000}
             assert_equal 0 [is_alive $srv]
         }
 
@@ -49,6 +50,7 @@ tags {"aof"} {
 
     start_server_aof [list dir $server_path] {
         test "Short read: Server should not have been started" {
+            if {$::valgrind} {after 2000}
             assert_equal 0 [is_alive $srv]
         }
 
@@ -117,6 +119,13 @@ tags {"aof"} {
         test "AOF+EXPIRE: List should be empty" {
             set client [redis [dict get $srv host] [dict get $srv port]]
             assert_equal 0 [$client llen list]
+        }
+    }
+
+    start_server {overrides {appendonly {yes} appendfilename {appendonly.aof}}} {
+        test {Redis should not try to convert DEL into EXPIREAT for EXPIRE -1} {
+            r set x 10
+            r expire x -1
         }
     }
 }

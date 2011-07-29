@@ -199,6 +199,9 @@ void sortCommand(redisClient *c) {
         j++;
     }
 
+    /* Destructively convert encoded sorted sets for SORT. */
+    if (sortval->type == REDIS_ZSET) zsetConvert(sortval, REDIS_ENCODING_SKIPLIST);
+
     /* Load the sorting vector with all the objects to sort */
     switch(sortval->type) {
     case REDIS_LIST: vectorlen = listTypeLength(sortval); break;
@@ -363,13 +366,12 @@ void sortCommand(redisClient *c) {
                 }
             }
         }
-        lookupKeyWrite(c->db,storekey); /* Force expire of old key if needed. */
-        dbReplace(c->db,storekey,sobj);
+        setKey(c->db,storekey,sobj);
+        decrRefCount(sobj);
         /* Note: we add 1 because the DB is dirty anyway since even if the
          * SORT result is empty a new key is set and maybe the old content
          * replaced. */
         server.dirty += 1+outputlen;
-        touchWatchedKey(c->db,storekey);
         addReplyLongLong(c,outputlen);
     }
 

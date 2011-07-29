@@ -67,34 +67,43 @@ robj *lookupKeyWriteOrReply(redisClient *c, robj *key, robj *reply) {
     return o;
 }
 
-/* Add the key to the DB. If the key already exists REDIS_ERR is returned,
- * otherwise REDIS_OK is returned, and the caller should increment the
- * refcount of 'val'. */
-int dbAdd(redisDb *db, robj *key, robj *val) {
-    /* Perform a lookup before adding the key, as we need to copy the
-     * key value. */
-    if (dictFind(db->dict, key->ptr) != NULL) {
-        return REDIS_ERR;
-    } else {
-        sds copy = sdsdup(key->ptr);
-        dictAdd(db->dict, copy, val);
-        return REDIS_OK;
-    }
+/* Add the key to the DB. It's up to the caller to increment the reference
+ * counte of the value if needed.
+ *
+ * The program is aborted if the key already exists. */
+void dbAdd(redisDb *db, robj *key, robj *val) {
+    sds copy = sdsdup(key->ptr);
+    int retval = dictAdd(db->dict, copy, val);
+    redisAssert(retval == REDIS_OK);
 }
 
-/* If the key does not exist, this is just like dbAdd(). Otherwise
- * the value associated to the key is replaced with the new one.
+/* Overwrite an existing key with a new value. Incrementing the reference
+ * count of the new value is up to the caller.
+ * This function does not modify the expire time of the existing key.
  *
- * On update (key already existed) 0 is returned. Otherwise 1. */
-int dbReplace(redisDb *db, robj *key, robj *val) {
-    if (dictFind(db->dict,key->ptr) == NULL) {
-        sds copy = sdsdup(key->ptr);
-        dictAdd(db->dict, copy, val);
-        return 1;
+ * The program is aborted if the key was not already present. */
+void dbOverwrite(redisDb *db, robj *key, robj *val) {
+    struct dictEntry *de = dictFind(db->dict,key->ptr);
+    
+    redisAssert(de != NULL);
+    dictReplace(db->dict, key->ptr, val);
+}
+
+/* High level Set operation. This function can be used in order to set
+ * a key, whatever it was existing or not, to a new object.
+ *
+ * 1) The ref count of the value object is incremented.
+ * 2) clients WATCHing for the destination key notified.
+ * 3) The expire time of the key is reset (the key is made persistent). */
+void setKey(redisDb *db, robj *key, robj *val) {
+    if (lookupKeyWrite(db,key) == NULL) {
+        dbAdd(db,key,val);
     } else {
-        dictReplace(db->dict, key->ptr, val);
-        return 0;
+        dbOverwrite(db,key,val);
     }
+    incrRefCount(val);
+    removeExpire(db,key);
+    signalModifiedKey(db,key);
 }
 
 int dbExists(redisDb *db, robj *key) {
@@ -161,19 +170,36 @@ int selectDb(redisClient *c, int id) {
 }
 
 /*-----------------------------------------------------------------------------
+ * Hooks for key space changes.
+ *
+ * Every time a key in the database is modified the function
+ * signalModifiedKey() is called.
+ *
+ * Every time a DB is flushed the function signalFlushDb() is called.
+ *----------------------------------------------------------------------------*/
+
+void signalModifiedKey(redisDb *db, robj *key) {
+    touchWatchedKey(db,key);
+}
+
+void signalFlushedDb(int dbid) {
+    touchWatchedKeysOnFlush(dbid);
+}
+
+/*-----------------------------------------------------------------------------
  * Type agnostic commands operating on the key space
  *----------------------------------------------------------------------------*/
 
 void flushdbCommand(redisClient *c) {
     server.dirty += dictSize(c->db->dict);
-    touchWatchedKeysOnFlush(c->db->id);
+    signalFlushedDb(c->db->id);
     dictEmpty(c->db->dict);
     dictEmpty(c->db->expires);
     addReply(c,shared.ok);
 }
 
 void flushallCommand(redisClient *c) {
-    touchWatchedKeysOnFlush(-1);
+    signalFlushedDb(-1);
     server.dirty += emptyDb();
     addReply(c,shared.ok);
     if (server.bgsavechildpid != -1) {
@@ -189,7 +215,7 @@ void delCommand(redisClient *c) {
 
     for (j = 1; j < c->argc; j++) {
         if (dbDelete(c->db,c->argv[j])) {
-            touchWatchedKey(c->db,c->argv[j]);
+            signalModifiedKey(c->db,c->argv[j]);
             server.dirty++;
             deleted++;
         }
@@ -298,9 +324,9 @@ void saveCommand(redisClient *c) {
 void bgsaveCommand(redisClient *c) {
     if (server.bgsavechildpid != -1) {
         addReplyError(c,"Background save already in progress");
-        return;
-    }
-    if (rdbSaveBackground(server.dbfilename) == REDIS_OK) {
+    } else if (server.bgrewritechildpid != -1) {
+        addReplyError(c,"Can't BGSAVE while AOF log rewriting is in progress");
+    } else if (rdbSaveBackground(server.dbfilename) == REDIS_OK) {
         addReplyStatus(c,"Background saving started");
     } else {
         addReply(c,shared.err);
@@ -326,17 +352,19 @@ void renameGenericCommand(redisClient *c, int nx) {
         return;
 
     incrRefCount(o);
-    if (dbAdd(c->db,c->argv[2],o) == REDIS_ERR) {
+    if (lookupKeyWrite(c->db,c->argv[2]) != NULL) {
         if (nx) {
             decrRefCount(o);
             addReply(c,shared.czero);
             return;
         }
-        dbReplace(c->db,c->argv[2],o);
+        dbOverwrite(c->db,c->argv[2],o);
+    } else {
+        dbAdd(c->db,c->argv[2],o);
     }
     dbDelete(c->db,c->argv[1]);
-    touchWatchedKey(c->db,c->argv[1]);
-    touchWatchedKey(c->db,c->argv[2]);
+    signalModifiedKey(c->db,c->argv[1]);
+    signalModifiedKey(c->db,c->argv[2]);
     server.dirty++;
     addReply(c,nx ? shared.cone : shared.ok);
 }
@@ -378,11 +406,12 @@ void moveCommand(redisClient *c) {
         return;
     }
 
-    /* Try to add the element to the target DB */
-    if (dbAdd(dst,c->argv[1],o) == REDIS_ERR) {
+    /* Return zero if the key already exists in the target DB */
+    if (lookupKeyWrite(dst,c->argv[1]) != NULL) {
         addReply(c,shared.czero);
         return;
     }
+    dbAdd(dst,c->argv[1],o);
     incrRefCount(o);
 
     /* OK! key moved, free the entry in the source DB */
@@ -511,14 +540,14 @@ void expireGenericCommand(redisClient *c, robj *key, robj *param, long offset) {
         aux = createStringObject("DEL",3);
         rewriteClientCommandVector(c,2,aux,key);
         decrRefCount(aux);
-        touchWatchedKey(c->db,key);
+        signalModifiedKey(c->db,key);
         addReply(c, shared.cone);
         return;
     } else {
         time_t when = time(NULL)+seconds;
         setExpire(c->db,key,when);
         addReply(c,shared.cone);
-        touchWatchedKey(c->db,key);
+        signalModifiedKey(c->db,key);
         server.dirty++;
         return;
     }

@@ -67,9 +67,9 @@
 #include <assert.h>
 #include <limits.h>
 #include "zmalloc.h"
+#include "util.h"
 #include "ziplist.h"
-
-int ll2string(char *s, size_t len, long long value);
+#include "endian.h"
 
 #define ZIP_END 255
 #define ZIP_BIGLEN 254
@@ -207,6 +207,7 @@ static unsigned int zipPrevDecodeLength(unsigned char *p, unsigned int *lensize)
     } else {
         if (lensize) *lensize = 1+sizeof(len);
         memcpy(&len,p+1,sizeof(len));
+        memrev32ifbe(&len);
     }
     return len;
 }
@@ -223,6 +224,7 @@ static unsigned int zipPrevEncodeLength(unsigned char *p, unsigned int len) {
         } else {
             p[0] = ZIP_BIGLEN;
             memcpy(p+1,&len,sizeof(len));
+            memrev32ifbe(p+1);
             return 1+sizeof(len);
         }
     }
@@ -234,6 +236,7 @@ static void zipPrevEncodeLengthForceLarge(unsigned char *p, unsigned int len) {
     if (p == NULL) return;
     p[0] = ZIP_BIGLEN;
     memcpy(p+1,&len,sizeof(len));
+    memrev32ifbe(p+1);
 }
 
 /* Return the difference in number of bytes needed to store the new length
@@ -248,22 +251,9 @@ static int zipPrevLenByteDiff(unsigned char *p, unsigned int len) {
  * Stores the integer value in 'v' and its encoding in 'encoding'. */
 static int zipTryEncoding(unsigned char *entry, unsigned int entrylen, long long *v, unsigned char *encoding) {
     long long value;
-    char *eptr;
-    char buf[32];
 
     if (entrylen >= 32 || entrylen == 0) return 0;
-    if (entry[0] == '-' || (entry[0] >= '0' && entry[0] <= '9')) {
-        int slen;
-
-        /* Perform a back-and-forth conversion to make sure that
-         * the string turned into an integer is not losing any info. */
-        memcpy(buf,entry,entrylen);
-        buf[entrylen] = '\0';
-        value = strtoll(buf,&eptr,10);
-        if (eptr[0] != '\0') return 0;
-        slen = ll2string(buf,32,value);
-        if (entrylen != (unsigned)slen || memcmp(buf,entry,slen)) return 0;
-
+    if (string2ll((char*)entry,entrylen,&value)) {
         /* Great, the string can be encoded. Check what's the smallest
          * of our encoding types that can hold this value. */
         if (value >= INT16_MIN && value <= INT16_MAX) {
@@ -287,12 +277,15 @@ static void zipSaveInteger(unsigned char *p, int64_t value, unsigned char encodi
     if (encoding == ZIP_INT_16B) {
         i16 = value;
         memcpy(p,&i16,sizeof(i16));
+        memrev16ifbe(p);
     } else if (encoding == ZIP_INT_32B) {
         i32 = value;
         memcpy(p,&i32,sizeof(i32));
+        memrev32ifbe(p);
     } else if (encoding == ZIP_INT_64B) {
         i64 = value;
         memcpy(p,&i64,sizeof(i64));
+        memrev64ifbe(p);
     } else {
         assert(NULL);
     }
@@ -305,12 +298,15 @@ static int64_t zipLoadInteger(unsigned char *p, unsigned char encoding) {
     int64_t i64, ret = 0;
     if (encoding == ZIP_INT_16B) {
         memcpy(&i16,p,sizeof(i16));
+        memrev16ifbe(&i16);
         ret = i16;
     } else if (encoding == ZIP_INT_32B) {
         memcpy(&i32,p,sizeof(i32));
+        memrev16ifbe(&i32);
         ret = i32;
     } else if (encoding == ZIP_INT_64B) {
         memcpy(&i64,p,sizeof(i64));
+        memrev16ifbe(&i64);
         ret = i64;
     } else {
         assert(NULL);
@@ -375,8 +371,8 @@ static unsigned char *ziplistResize(unsigned char *zl, unsigned int len) {
  * The pointer "p" points to the first entry that does NOT need to be
  * updated, i.e. consecutive fields MAY need an update. */
 static unsigned char *__ziplistCascadeUpdate(unsigned char *zl, unsigned char *p) {
-    unsigned int curlen = ZIPLIST_BYTES(zl), rawlen, rawlensize;
-    unsigned int offset, noffset, extra;
+    size_t curlen = ZIPLIST_BYTES(zl), rawlen, rawlensize;
+    size_t offset, noffset, extra;
     unsigned char *np;
     zlentry cur, next;
 
@@ -436,7 +432,8 @@ static unsigned char *__ziplistCascadeUpdate(unsigned char *zl, unsigned char *p
 /* Delete "num" entries, starting at "p". Returns pointer to the ziplist. */
 static unsigned char *__ziplistDelete(unsigned char *zl, unsigned char *p, unsigned int num) {
     unsigned int i, totlen, deleted = 0;
-    int offset, nextdiff = 0;
+    size_t offset;
+    int nextdiff = 0;
     zlentry first, tail;
 
     first = zipEntry(p);
@@ -488,8 +485,9 @@ static unsigned char *__ziplistDelete(unsigned char *zl, unsigned char *p, unsig
 
 /* Insert item at "p". */
 static unsigned char *__ziplistInsert(unsigned char *zl, unsigned char *p, unsigned char *s, unsigned int slen) {
-    unsigned int curlen = ZIPLIST_BYTES(zl), reqlen, prevlen = 0;
-    unsigned int offset, nextdiff = 0;
+    size_t curlen = ZIPLIST_BYTES(zl), reqlen, prevlen = 0;
+    size_t offset;
+    int nextdiff = 0;
     unsigned char encoding = 0;
     long long value;
     zlentry entry, tail;
@@ -673,7 +671,7 @@ unsigned char *ziplistInsert(unsigned char *zl, unsigned char *p, unsigned char 
  * Also update *p in place, to be able to iterate over the
  * ziplist, while deleting entries. */
 unsigned char *ziplistDelete(unsigned char *zl, unsigned char **p) {
-    unsigned int offset = *p-zl;
+    size_t offset = *p-zl;
     zl = __ziplistDelete(zl,*p,1);
 
     /* Store pointer to current element in p, because ziplistDelete will
@@ -735,8 +733,8 @@ unsigned int ziplistLen(unsigned char *zl) {
     return len;
 }
 
-/* Return size in bytes of ziplist. */
-unsigned int ziplistSize(unsigned char *zl) {
+/* Return ziplist blob size in bytes. */
+size_t ziplistBlobLen(unsigned char *zl) {
     return ZIPLIST_BYTES(zl);
 }
 

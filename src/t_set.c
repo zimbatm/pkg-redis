@@ -218,9 +218,9 @@ void setTypeConvert(robj *setobj, int enc) {
 
 void saddCommand(redisClient *c) {
     robj *set;
+    int j, added = 0;
 
     set = lookupKeyWrite(c->db,c->argv[1]);
-    c->argv[2] = tryObjectEncoding(c->argv[2]);
     if (set == NULL) {
         set = setTypeCreate(c->argv[2]);
         dbAdd(c->db,c->argv[1],set);
@@ -230,30 +230,37 @@ void saddCommand(redisClient *c) {
             return;
         }
     }
-    if (setTypeAdd(set,c->argv[2])) {
-        touchWatchedKey(c->db,c->argv[1]);
-        server.dirty++;
-        addReply(c,shared.cone);
-    } else {
-        addReply(c,shared.czero);
+
+    for (j = 2; j < c->argc; j++) {
+        c->argv[j] = tryObjectEncoding(c->argv[j]);
+        if (setTypeAdd(set,c->argv[j])) added++;
     }
+    if (added) signalModifiedKey(c->db,c->argv[1]);
+    server.dirty += added;
+    addReplyLongLong(c,added);
 }
 
 void sremCommand(redisClient *c) {
     robj *set;
+    int j, deleted = 0;
 
     if ((set = lookupKeyWriteOrReply(c,c->argv[1],shared.czero)) == NULL ||
         checkType(c,set,REDIS_SET)) return;
 
-    c->argv[2] = tryObjectEncoding(c->argv[2]);
-    if (setTypeRemove(set,c->argv[2])) {
-        if (setTypeSize(set) == 0) dbDelete(c->db,c->argv[1]);
-        touchWatchedKey(c->db,c->argv[1]);
-        server.dirty++;
-        addReply(c,shared.cone);
-    } else {
-        addReply(c,shared.czero);
+    for (j = 2; j < c->argc; j++) {
+        if (setTypeRemove(set,c->argv[j])) {
+            deleted++;
+            if (setTypeSize(set) == 0) {
+                dbDelete(c->db,c->argv[1]);
+                break;
+            }
+        }
     }
+    if (deleted) {
+        signalModifiedKey(c->db,c->argv[1]);
+        server.dirty += deleted;
+    }
+    addReplyLongLong(c,deleted);
 }
 
 void smoveCommand(redisClient *c) {
@@ -287,8 +294,8 @@ void smoveCommand(redisClient *c) {
 
     /* Remove the src set from the database when empty */
     if (setTypeSize(srcset) == 0) dbDelete(c->db,c->argv[1]);
-    touchWatchedKey(c->db,c->argv[1]);
-    touchWatchedKey(c->db,c->argv[2]);
+    signalModifiedKey(c->db,c->argv[1]);
+    signalModifiedKey(c->db,c->argv[2]);
     server.dirty++;
 
     /* Create the destination set when it doesn't exist */
@@ -349,7 +356,7 @@ void spopCommand(redisClient *c) {
 
     addReplyBulk(c,ele);
     if (setTypeSize(set) == 0) dbDelete(c->db,c->argv[1]);
-    touchWatchedKey(c->db,c->argv[1]);
+    signalModifiedKey(c->db,c->argv[1]);
     server.dirty++;
 }
 
@@ -390,7 +397,7 @@ void sinterGenericCommand(redisClient *c, robj **setkeys, unsigned long setnum, 
             zfree(sets);
             if (dstkey) {
                 if (dbDelete(c->db,dstkey)) {
-                    touchWatchedKey(c->db,dstkey);
+                    signalModifiedKey(c->db,dstkey);
                     server.dirty++;
                 }
                 addReply(c,shared.czero);
@@ -495,7 +502,7 @@ void sinterGenericCommand(redisClient *c, robj **setkeys, unsigned long setnum, 
             decrRefCount(dstset);
             addReply(c,shared.czero);
         }
-        touchWatchedKey(c->db,dstkey);
+        signalModifiedKey(c->db,dstkey);
         server.dirty++;
     } else {
         setDeferredMultiBulkLength(c,replylen,cardinality);
@@ -587,7 +594,7 @@ void sunionDiffGenericCommand(redisClient *c, robj **setkeys, int setnum, robj *
             decrRefCount(dstset);
             addReply(c,shared.czero);
         }
-        touchWatchedKey(c->db,dstkey);
+        signalModifiedKey(c->db,dstkey);
         server.dirty++;
     }
     zfree(sets);

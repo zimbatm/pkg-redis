@@ -30,12 +30,12 @@
 
 /* Create a VM pointer object. This kind of objects are used in place of
  * values in the key -> value hash table, for swapped out objects. */
-vmpointer *createVmPointer(int vtype) {
+vmpointer *createVmPointer(robj *o) {
     vmpointer *vp = zmalloc(sizeof(vmpointer));
 
     vp->type = REDIS_VMPOINTER;
     vp->storage = REDIS_VM_SWAPPED;
-    vp->vtype = vtype;
+    vp->vtype = getObjectSaveType(o);
     return vp;
 }
 
@@ -272,7 +272,7 @@ vmpointer *vmSwapObjectBlocking(robj *val) {
     if (vmFindContiguousPages(&page,pages) == REDIS_ERR) return NULL;
     if (vmWriteObjectOnSwap(val,page) == REDIS_ERR) return NULL;
 
-    vp = createVmPointer(val->type);
+    vp = createVmPointer(val);
     vp->page = page;
     vp->usedpages = pages;
     decrRefCount(val); /* Deallocate the object from memory. */
@@ -368,7 +368,6 @@ double computeObjectSwappability(robj *o) {
     listNode *ln;
     dict *d;
     struct dictEntry *de;
-    int z;
 
     if (minage <= 0) return 0;
     switch(o->type) {
@@ -381,7 +380,7 @@ double computeObjectSwappability(robj *o) {
         break;
     case REDIS_LIST:
         if (o->encoding == REDIS_ENCODING_ZIPLIST) {
-            asize = sizeof(*o)+ziplistSize(o->ptr);
+            asize = sizeof(*o)+ziplistBlobLen(o->ptr);
         } else {
             l = o->ptr;
             ln = listFirst(l);
@@ -395,23 +394,34 @@ double computeObjectSwappability(robj *o) {
         }
         break;
     case REDIS_SET:
-    case REDIS_ZSET:
-        z = (o->type == REDIS_ZSET);
-        d = z ? ((zset*)o->ptr)->dict : o->ptr;
-
-        if (!z && o->encoding == REDIS_ENCODING_INTSET) {
+        if (o->encoding == REDIS_ENCODING_INTSET) {
             intset *is = o->ptr;
             asize = sizeof(*is)+is->encoding*is->length;
         } else {
+            d = o->ptr;
             asize = sizeof(dict)+(sizeof(struct dictEntry*)*dictSlots(d));
-            if (z) asize += sizeof(zset)-sizeof(dict);
             if (dictSize(d)) {
                 de = dictGetRandomKey(d);
                 ele = dictGetEntryKey(de);
                 elesize = (ele->encoding == REDIS_ENCODING_RAW) ?
                                 (sizeof(*o)+sdslen(ele->ptr)) : sizeof(*o);
                 asize += (sizeof(struct dictEntry)+elesize)*dictSize(d);
-                if (z) asize += sizeof(zskiplistNode)*dictSize(d);
+            }
+        }
+        break;
+    case REDIS_ZSET:
+        if (o->encoding == REDIS_ENCODING_ZIPLIST) {
+            asize = sizeof(*o)+(ziplistBlobLen(o->ptr) / 2);
+        } else {
+            d = ((zset*)o->ptr)->dict;
+            asize = sizeof(zset)+(sizeof(struct dictEntry*)*dictSlots(d));
+            if (dictSize(d)) {
+                de = dictGetRandomKey(d);
+                ele = dictGetEntryKey(de);
+                elesize = (ele->encoding == REDIS_ENCODING_RAW) ?
+                                (sizeof(*o)+sdslen(ele->ptr)) : sizeof(*o);
+                asize += (sizeof(struct dictEntry)+elesize)*dictSize(d);
+                asize += sizeof(zskiplistNode)*dictSize(d);
             }
         }
         break;
@@ -653,7 +663,7 @@ void vmThreadedIOCompletedJob(aeEventLoop *el, int fd, void *privdata,
                 printf("val->ptr: %s\n",(char*)j->val->ptr);
             }
             redisAssert(j->val->storage == REDIS_VM_SWAPPING);
-            vp = createVmPointer(j->val->type);
+            vp = createVmPointer(j->val);
             vp->page = j->page;
             vp->usedpages = j->pages;
             dictGetEntryVal(de) = vp;
