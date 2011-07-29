@@ -4,43 +4,15 @@
 # Bug-Ubuntu: https://bugs.launchpad.net/ubuntu/+source/redis/+bug/771061
 # Author: Nigel Babu <nigelbabu@ubuntu.com>
 
-diff -urNad /tmp/bp-build/redis-2.2.12.orig/src/Makefile /tmp/bp-build/redis-2.2.12/src/Makefile
---- redis-2.2.12.orig/src/Makefile	2011-07-27 19:10:28.769806836 +0200
-+++ redis-2.2.12/src/Makefile	2011-07-27 19:11:35.967276541 +0200
-@@ -32,7 +32,7 @@
-   CCLINK+= -ltcmalloc
-   CFLAGS+= -DUSE_TCMALLOC
+diff -urNad redis-2.4.0-rc5.orig/src/Makefile redis-2.4.0-rc5/src/Makefile
+--- redis-2.4.0-rc5.orig/src/Makefile	2011-07-29 21:25:54.744425745 +0200
++++ redis-2.4.0-rc5/src/Makefile	2011-07-29 21:27:24.107657897 +0200
+@@ -52,7 +52,7 @@
+   ALLOC_FLAGS=-DUSE_JEMALLOC -I../deps/jemalloc/include
  endif
--CCOPT= $(CFLAGS) $(CCLINK) $(ARCH) $(PROF)
-+CCOPT= $(CFLAGS) $(ARCH) $(PROF)
+ 
+-CCOPT= $(CFLAGS) $(ARCH) $(PROF)
++CCOPT= $(CFLAGS) $(CCLINK) $(ARCH) $(PROF)
  
  PREFIX= /usr/local
  INSTALL_BIN= $(PREFIX)/bin
-@@ -130,12 +130,12 @@
- 	cd ../deps/linenoise && $(MAKE) ARCH="$(ARCH)"
- 
- redis-server: $(OBJ)
--	$(QUIET_LINK)$(CC) -o $(PRGNAME) $(CCOPT) $(DEBUG) $(OBJ)
-+	$(QUIET_LINK)$(CC) -o $(PRGNAME) $(CCOPT) $(DEBUG) $(OBJ) $(CCLINK)
- 
- redis-benchmark: dependencies $(BENCHOBJ)
- 	@printf '%b %b\n' $(MAKECOLOR)MAKE$(ENDCOLOR) $(BINCOLOR)hiredis$(ENDCOLOR)
- 	cd ../deps/hiredis && $(MAKE) static ARCH="$(ARCH)"
--	$(QUIET_LINK)$(CC) -o $(BENCHPRGNAME) $(CCOPT) $(DEBUG) $(BENCHOBJ) ../deps/hiredis/libhiredis.a
-+	$(QUIET_LINK)$(CC) -o $(BENCHPRGNAME) $(CCOPT) $(DEBUG) $(BENCHOBJ) ../deps/hiredis/libhiredis.a $(CCLINK)
- 
- redis-benchmark.o:
- 	$(QUIET_CC)$(CC) -c $(CFLAGS) -I../deps/hiredis $(DEBUG) $(COMPILE_TIME) $<
-@@ -147,10 +147,10 @@
- 	$(QUIET_CC)$(CC) -c $(CFLAGS) -I../deps/hiredis -I../deps/linenoise $(DEBUG) $(COMPILE_TIME) $<
- 
- redis-check-dump: $(CHECKDUMPOBJ)
--	$(QUIET_LINK)$(CC) -o $(CHECKDUMPPRGNAME) $(CCOPT) $(DEBUG) $(CHECKDUMPOBJ)
-+	$(QUIET_LINK)$(CC) -o $(CHECKDUMPPRGNAME) $(CCOPT) $(DEBUG) $(CHECKDUMPOBJ) $(CCLINK)
- 
- redis-check-aof: $(CHECKAOFOBJ)
--	$(QUIET_LINK)$(CC) -o $(CHECKAOFPRGNAME) $(CCOPT) $(DEBUG) $(CHECKAOFOBJ)
-+	$(QUIET_LINK)$(CC) -o $(CHECKAOFPRGNAME) $(CCOPT) $(DEBUG) $(CHECKAOFOBJ) $(CCLINK)
- 
- .c.o:
- 	$(QUIET_CC)$(CC) -c $(CFLAGS) $(DEBUG) $(COMPILE_TIME) $<
